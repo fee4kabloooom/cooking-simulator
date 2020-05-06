@@ -5,8 +5,8 @@ using UnityEngine;
 public class HeroControl : MonoBehaviour
 {
     [SerializeField] float speed;
-    [SerializeField] Animator anim;
-    [SerializeField] Rigidbody2D rb;
+    Animator anim;
+    Rigidbody2D rb;
 
     Vector2 move;
     bool isMoving;
@@ -18,13 +18,14 @@ public class HeroControl : MonoBehaviour
     }
     private void Update()
     {
-        move.x = Input.GetAxis("Horizontal");
-        move.y = Input.GetAxis("Vertical");
+        move.x = Input.GetAxisRaw("Horizontal");
+        move.y = Input.GetAxisRaw("Vertical");
         RotateHero();
     }
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + move * speed * Time.deltaTime);
+        if(move.x != 0 && move.y != 0) rb.MovePosition(rb.position + move * speed/1.5f * Time.deltaTime);
+        else rb.MovePosition(rb.position + move * speed * Time.deltaTime);
     }
     void RotateHero()
     {
